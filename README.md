@@ -117,6 +117,7 @@ module.exports = class ConditionalMandatoryCheck extends BaseValidation {
 }
 ```
 ```cds
+db/validations.cds
 annotate schema.Travel {
     @validation: {
         message: 'Default message',
@@ -155,7 +156,17 @@ module.exports = class BeginDateChecks extends BaseValidation {
         return true
     }
 }
-    
+```
+```cds
+db/validations.cds
+annotate schema.Travel {
+    @validation: {
+        message: 'Please enter a begin date that is before the end date',
+        handler: 'srv/handlers/BeginDateChecks.js'
+    }
+   BeginDate;
+}
+  
 _i18n/i18n.properties
 begindatetoday-errorMessage = Travel Begin Date {{Travel-BeginDate}} can not be before today {{custom-today}}
 ```
