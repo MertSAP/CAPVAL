@@ -186,6 +186,10 @@ The following setter methods are available:
 3. setTarget(Target): Overwrites the generated field target
 4. setCustomMessageVariables(data): Allows a JSON Object with custom key value pairs to be used in error messages
 
+## Demo
+
+SFLIGHT Scenario with CAPVAL
+https://github.com/MertSAP/cap-sflight
 
 
 
