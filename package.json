@@ -1,6 +1,6 @@
 {
   "name": "capval",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "SAP CAP Validation Plugin",
   "repository": "https://github.com/MertSAP/CAPVAL",
   "main": "index.js",
