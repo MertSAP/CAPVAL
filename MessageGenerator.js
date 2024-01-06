@@ -14,7 +14,6 @@ module.exports = class MessageGenerator {
         i18nPath = path.join(path.resolve('./'), '_i18n', 'i18n')
     }
       this.bundle = new TextBundle(i18nPath, this.locale)
-      console.log(this.bundle)
       resolve()
     })
   }

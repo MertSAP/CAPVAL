@@ -60,7 +60,7 @@ module.exports = class ServiceParser {
               entityRow.HasValidations = true
               let handler = ''
               if (element['@validation.handler'] !== undefined) {
-                handler = path.join(
+                handler = path.join('file:','.',
                   path.resolve('./'),
                   element['@validation.handler']
                 )

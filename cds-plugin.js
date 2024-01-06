@@ -27,7 +27,7 @@ cds.once('served', async () => {
   for (const validationElement of validationElements) {
     if (validationElement.Handler !== '') {
       const { default: Validater } = await await import(
-        'File://' + validationElement.Handler
+        validationElement.Handler
       )
       validationElement.handlerClass = Validater
     }
