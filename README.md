@@ -44,7 +44,7 @@ annotate schema.Travel {
 
 _i18n/i18n.properties
 
-begindate-error = Please enter a price for booking supplement
+begindate-error = Enter a valid begin date
 
   ```
 
@@ -52,6 +52,7 @@ begindate-error = Please enter a price for booking supplement
 
 ```cds
 db/validations.cds
+using { sap.fe.cap.travel as schema } from '../db/schema';
 
 annotate schema.Travel {
     @validation.message: 'i18n>begindate-error'
@@ -60,7 +61,7 @@ annotate schema.Travel {
 }
 
 _i18n/i18n.properties
-begindate-error = Begin Date {{Travel-BeginDate}} must be after today
+begindate-error = Begin Date required and must be before End Date {{Travel-EndDate}}
    ```
 ## Custom Validations 
 The introduced annotation @validation.handler allows a class to be specified that implements a custom validation. This allows for modulisation and reuse of validations. Implementations must extend the BaseValidation class and implement the IsValid Method, returning true or false. CAPVAL will automatically determine the targets (in/to_Booking(BookingUUID etc etc), collate, and return the errors. 
@@ -86,6 +87,8 @@ module.exports = class BeginDateChecks extends BaseValidation {
 ```
 ```cds
 db/validations.cds
+using { sap.fe.cap.travel as schema } from '../db/schema';
+
 annotate schema.Travel {
     @validation: {
         message: 'Please enter a begin date that is before the end date',
@@ -106,8 +109,7 @@ const BaseValidation = require('capval')
 module.exports = class ConditionalMandatoryCheck extends BaseValidation {
     isValid(InputValue) {
        var data = this.getDataToRoot()
-
-       if(data['Travel.TravelStatus_code'] === 'X') return false
+       if(data['Travel-TravelStatus_code'] === 'X') return true
         if(!InputValue) {
             this.seti18nMessage(this.getField()+ '-errorMessage')
             return false
@@ -118,6 +120,7 @@ module.exports = class ConditionalMandatoryCheck extends BaseValidation {
 ```
 ```cds
 db/validations.cds
+using { sap.fe.cap.travel as schema } from '../db/schema';
 annotate schema.Travel {
     @validation: {
         message: 'Default message',
@@ -159,6 +162,7 @@ module.exports = class BeginDateChecks extends BaseValidation {
 ```
 ```cds
 db/validations.cds
+using { sap.fe.cap.travel as schema } from '../db/schema';
 annotate schema.Travel {
     @validation: {
         message: 'Please enter a begin date that is before the end date',
