@@ -14,7 +14,7 @@ npm add capval
 ```
 # Annotations
 ## Custom Messages with contextual information
-To override messages all we need to do is place the @validation.message annotation alongside existing input validation annotation 
+To override messages all we need to do is place the @validation.message annotation alongside existing input validation annotations 
 ### Examples
 #### Custom Message
   
