@@ -60,7 +60,7 @@ cds.once('served', async () => {
               )
             })
 
-            const messageGenerator = new MessageGenerator(req.user.locale)
+            const messageGenerator = new MessageGenerator(req.locale)
             await messageGenerator.loadBundle()
 
             for (const detail of details) {
@@ -107,7 +107,7 @@ cds.once('served', async () => {
                 validationElements,
                 entities,
                 srv.name,
-                req.user.locale
+                req.locale
               )
 
               const errors = await handlerProcessor.validateData(
