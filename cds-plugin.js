@@ -64,13 +64,11 @@ cds.once('served', async () => {
             await messageGenerator.loadBundle()
 
             for (const detail of details) {
-              let validationRule = validationElements.find((item) => {
-                return (
-                  detail.entity ===
-                      item.ServiceName + '.' + item.EntityName &&
-                    detail.element === item.FieldName
-                )
-              })
+              let validationRule = validationElements.find((item) =>
+                entity.ServiceName === item.ServiceName &&
+                entity.EntityName === item.EntityName &&
+                detail.target === item.FieldName
+              )
 
               if (validationRule !== undefined) {
                 const dataTracer = new TraceGenerator(
