@@ -9,7 +9,7 @@ This plugin aims to address the following:
 ## Setup
 To use CAPVAL, simply add the dependency to your project
 
-For @CAP/SAP version less than 8.0.0 use CAPVAL version < 2. Use CAPVAL version 2 and above for @CAP/SAP version 8.0.0 and above
+For @sap/cds version less than 8.0.0 use CAPVAL version 1.1.0. Use CAPVAL version 1.2.0 and above for @sap/cds version 8.0.0 and above
 
 ```sh
 npm add capval
