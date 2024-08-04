@@ -1,7 +1,9 @@
 const MessageGenerator = require("./MessageGenerator.js");
 const HandlerProcessor = require("./HandlerProcessor.js");
 const path = require('path')
-/* const TraceGenerator = require("./TraceGenerator.js"); */
+if(cds.version<'8')
+throw new Error('CDS version must be 8 or higher, use capval 1.3.1 for cds 7 or below')
+
 const errorHandler = async function (err, req, res, next) {
   if (!err.target ||err.message !== 'Value is required') {
     res.statusCode = 400;
