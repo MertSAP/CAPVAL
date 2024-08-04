@@ -51,7 +51,16 @@ cds.once("served", async () => {
           cds.middlewares.after = [errorHandler];
 
           srv.on("error", entity.EntityName, async (err, req) => {
-            await errorProcessor.generateErrors(req.body, req.locale, err);
+            const results = await cds.tx(req, async (tx) => {
+              return await tx.run(
+                SELECT.from(entity.EntityName + ".drafts").where(req._params[0])
+              );
+            });
+            await errorProcessor.generateErrors(
+              results.context.results,
+              req.locale,
+              err
+            );
           });
 
           if (
