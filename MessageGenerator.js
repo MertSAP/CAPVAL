@@ -1,4 +1,4 @@
-const Mustache = require('mustache')
+
 const { TextBundle } = require('@sap/textbundle')
 const path = require('path')
 const fs = require("fs")

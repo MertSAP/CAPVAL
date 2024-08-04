@@ -1,5 +1,6 @@
 const TraceGenerator = require('./TraceGenerator.js')
 const MessageGenerator = require('./MessageGenerator.js')
+const path = require('path')
 module.exports = class HandlerProcessor {
   constructor (data, validationElements, entities, serviceName, locale) {
     // this.data = [];
@@ -81,24 +82,22 @@ module.exports = class HandlerProcessor {
     return trace
   }
 
-  validateField (EntityName, Field, value, path, Node, trace) {
+  validateField (EntityName, Field, value, fieldPath, Node, trace) {
     const validationRule = this.validationElements.find(item => {
-      return item.FieldName === Field && item.EntityName === EntityName & item.handler !== '' && item.ServiceName === this.serviceName
+      return item.name === Field && item['@validation.handler']
     })
 
     if (validationRule === undefined) return
-
-    if (validationRule.handlerClass === undefined) return
-
-    const Validator = validationRule.handlerClass
-    const v = new Validator(Field, Node, trace, this.data, validationRule.Message, path)
+    const validationHandlerpath = path.join(path.resolve('./'), validationRule['@validation.handler'])
+    const Validator = require(validationHandlerpath);
+    const v = new Validator(Field, Node, trace, this.data, validationRule["@validation.message"], fieldPath)
     if (!v.isValid(value)) {
       const error = v.generateError()
 
       trace = this.addCustomFieldsToTrace(v.getCustomMessageVariables(), trace)
       this.messageGenerator
-        .getMessage(error.message, trace, error)
-        .then((message) => {})
+        .getText(error.message)
+        .then((message) => {error.message = message})
 
       this.errors.push(error)
     }
