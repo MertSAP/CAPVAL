@@ -17,26 +17,10 @@ module.exports = class MessageGenerator {
       resolve()
     })
   }
-
-  getMessage (message, data, detail) {
-    return new Promise(resolve => {
-      this.fetchMessageTextFromi18n(message, this.locale).then(message => {
-        this.message = message
-        const result = Mustache.render(this.message, data)
-        detail.message = result
-        resolve(result)
-      })
-    })
-  }
-
-  fetchMessageTextFromi18n (message) {
-    return this.getText(message, this.bundle)
-  }
-
-  async getText (message, bundle) {
+  async getText (message) {
     if (message.indexOf('i18n>') === 0) {
       message = message.replace('i18n>', '')
-      const text = await bundle.getText(message)
+      const text = this.bundle.getText(message)
       return text
     }
     return message
