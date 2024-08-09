@@ -56,6 +56,7 @@ cds.once("served", async () => {
                 SELECT.from(entity.EntityName + ".drafts").where(req._params[0])
               );
             });
+
             await errorProcessor.generateErrors(
               results.context.results,
               req.locale,

@@ -8,7 +8,46 @@ module.exports = class HandlerProcessor {
     this.entities = entities;
     this.serviceName = serviceName;
   }
+
+  getErrorDetails(root, target) {
+    let result = {
+      entityName: "",
+      fieldName: "",
+    };
+    if (target === undefined) return result;
+    try {
+      if (target.startsWith("in/")) {
+        target = target.replace("in/", "");
+      }
+      target = target.replace("(", "[");
+      target = target.replace(")", "]");
+      let reg = /\[.+?]/;
+
+      let targetPath = target.replace(reg, "");
+
+      if (targetPath === targetPath.replace("/", "")) {
+        result.entityName = root.EntityName;
+        result.fieldName = targetPath;
+        return result;
+      }
+      let path = targetPath.split("/");
+      result.fieldName = path.pop();
+
+      let searchTarget = path.join("/") + "/";
+      let childEntity = this.entities.find(
+        (item) =>
+          searchTarget === item.target && root.ServiceName === item.ServiceName
+      );
+
+      result.entityName = childEntity.EntityName;
+    } catch (e) {
+      console.log(e);
+    }
+
+    return result;
+  }
   async generateErrors(data, locale, err) {
+    let errorPromises = [];
     let details = [];
     if (err.details !== undefined) {
       details = err.details;
@@ -20,12 +59,13 @@ module.exports = class HandlerProcessor {
     await messageGenerator.loadBundle();
 
     for (const detail of details) {
+      let errorDetails = this.getErrorDetails(this.entity, detail.target);
       let validationRule = this.validationElements.find(
         (item) =>
           this.entity.ServiceName === item.ServiceName &&
-          this.entity.EntityName === item.EntityName &&
-          (detail.target === item.FieldName ||
-            detail.target === "in/" + item.FieldName)
+          errorDetails.entityName === item.EntityName &&
+          (errorDetails.fieldName === item.FieldName ||
+            errorDetails.fieldName === "in/" + item.FieldName)
       );
 
       if (validationRule !== undefined) {
@@ -40,13 +80,12 @@ module.exports = class HandlerProcessor {
             this.entity.EntityName
           );
         } catch (E) {}
-
-        await messageGenerator.getMessage(
-          validationRule.Message,
-          trace,
-          detail
+        errorPromises.push(
+          messageGenerator.getMessage(validationRule.Message, trace, detail)
         );
       }
     }
+
+    await Promise.all(errorPromises);
   }
 };
