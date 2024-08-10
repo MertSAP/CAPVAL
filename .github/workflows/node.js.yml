@@ -1,4 +1,4 @@
-# This workflow runs performs all install of the latest packages of all dependecies(feature/tests branch) and executes tests
+# This workflow  performs an install of the latest packages of all dependecies(feature/tests branch) and executes tests
 name: Nightly Test
 
 on:
