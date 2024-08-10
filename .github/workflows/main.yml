@@ -1,10 +1,13 @@
 # Manual test
 
-name: Manual Test
+name:  Test on push and PR
 
 on:
   workflow_dispatch:
-
+  push:
+    branches: main
+  pull_request:
+    branches: main
 jobs:
   build:
     runs-on: ubuntu-latest
