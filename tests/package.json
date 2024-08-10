@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^8.0.3",
+    "@sap/cds": "latest",
     "capval": "file:..",
     "express": "^4"
   },
