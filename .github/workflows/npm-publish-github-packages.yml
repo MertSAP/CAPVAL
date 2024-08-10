@@ -15,8 +15,7 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: cd tests
-      - run: cd test && npm ci
+      - run: cd tests && npm ci
       - run: cd .. && npm run test
 
   publish-gpr:
