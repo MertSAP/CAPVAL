@@ -194,14 +194,14 @@ describe("Custom Handler", () => {
     let resp = await postBook(testPayload, true);
     let error = await activateBook(resp);
     expect(error.response.data.error.message).to.eql(
-      "Preview Date has to after today"
+      "Preview Date has to after toda"
     );
   });
 
   it("non drafts", async () => {
     let error = await postBook(testPayload, false);
     expect(error.response.data.error.message).to.eql(
-      "Preview Date has to after today"
+      "Preview Date has to after toda"
     );
   });
 });
