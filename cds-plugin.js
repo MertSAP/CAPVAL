@@ -1,35 +1,19 @@
-const ServiceParser = require('./ServiceParser.js')
-const MessageGenerator = require('./MessageGenerator.js')
-const TraceGenerator = require('./TraceGenerator.js')
-const HandlerProcessor = require('./HandlerProcessor.js')
+const ServiceParser = require("./ServiceParser.js");
+const MessageGenerator = require("./MessageGenerator.js");
+const TraceGenerator = require("./TraceGenerator.js");
+const HandlerProcessor = require("./HandlerProcessor.js");
+const ErrorProcessor = require("./ErrorProcessor.js");
+cds.once("served", async () => {
+  const serviceParser = new ServiceParser(cds.services);
+  const entities = serviceParser.getEntities();
+  const validationElements = serviceParser.getvalidationElements();
 
-cds.once('served', async () => {
-  const odp = Object.defineProperty
-  const _global = (_, ...pp) =>
-    pp.forEach((p) =>
-      odp(global, p, {
-        configurable: true,
-        get: () => {
-          const v = cds[_][p]
-          odp(this, p, { value: v })
-          return v
-        }
-      })
-    )
-  _global('ql', 'SELECT', 'INSERT', 'UPDATE', 'DELETE', 'CREATE', 'DROP')
-  _global('parse', 'CDL', 'CQL', 'CXL', 'FROM')
-  global.cds = cds
-
-  const serviceParser = new ServiceParser(cds.services)
-  const entities = serviceParser.getEntities()
-  const validationElements = serviceParser.getvalidationElements()
-  
   for (const validationElement of validationElements) {
-    if (validationElement.Handler !== '') {
+    if (validationElement.Handler !== "") {
       const { default: Validater } = await await import(
         validationElement.Handler
-      )
-      validationElement.handlerClass = Validater
+      );
+      validationElement.handlerClass = Validater;
     }
   }
 
@@ -37,68 +21,57 @@ cds.once('served', async () => {
     // go through all entities
     if (srv instanceof cds.ApplicationService) {
       for (const entity of entities) {
-        if (srv.name !== entity.ServiceName) continue
+        if (srv.name !== entity.ServiceName) continue;
         if (
-          (
-            entity.isRoot &&
-              (entity.HasValidations || entity.AncestorsHaveValidations)
-          )
+          entity.isRoot &&
+          (entity.HasValidations || entity.AncestorsHaveValidations)
         ) {
-          srv.on('error', entity.EntityName, async (err, req) => {
-            let details = []
-            if (err.details !== undefined) {
-              details = err.details
-            } else {
-              details.push(err)
-            }
+          let errorProcessor = new ErrorProcessor(
+            entity,
+            validationElements,
+            entities,
+            srv.name
+          );
 
+          const errorHandler = async function (err, req, res, next) {
+            try {
+              let target = req._query.SELECT.from.ref[0].id + ".drafts";
+              var whereClause = [];
+              whereClause[req._query.SELECT.from.ref[0].where[0].ref[0]] =
+                req._query.SELECT.from.ref[0].where[2].val;
+              let results = await SELECT.from(target).where(whereClause);
+
+              await errorProcessor.generateErrors(results[0], req.locale, err);
+              res.status(err.statusCode);
+              res.json({ error: err });
+            } catch (exception) {
+              next(exception);
+            }
+          };
+          cds.middlewares.after = [errorHandler];
+
+          srv.on("error", entity.EntityName, async (err, req) => {
             const results = await cds.tx(req, async (tx) => {
               return await tx.run(
-                SELECT.from(entity.EntityName + '.drafts').where(
-                  req._params[0]
-                )
-              )
-            })
+                SELECT.from(entity.EntityName + ".drafts").where(req._params[0])
+              );
+            });
 
-            const messageGenerator = new MessageGenerator(req.locale)
-            await messageGenerator.loadBundle()
+            await errorProcessor.generateErrors(
+              results.context.results,
+              req.locale,
+              err
+            );
+          });
 
-            for (const detail of details) {
-              let validationRule = validationElements.find((item) =>
-                entity.ServiceName === item.ServiceName &&
-                entity.EntityName === item.EntityName &&
-                detail.target === item.FieldName
-              )
-
-              if (validationRule !== undefined) {
-                const dataTracer = new TraceGenerator(
-                  results.context.results,
-                  entities,
-                  srv.name
-                )
-                try {
-                  var trace = dataTracer.performTrace(
-                    detail.target,
-                    entity.EntityName
-                  )
-                } catch (E) {}
-
-                messageGenerator
-                  .getMessage(validationRule.Message, trace, detail)
-                  .then((message) => {})
-              }
-            }
-          })
           if (
-            (
-              entity.isRoot &&
-                (entity.HasHandlers || entity.AncestorsHavehandlers)
-            )
+            entity.isRoot &&
+            (entity.HasHandlers || entity.AncestorsHavehandlers)
           ) {
-            srv.before('SAVE', entity.EntityName, async (req) => {
-              if (!req.data) return
+            srv.before("SAVE", entity.EntityName, async (req) => {
+              if (!req.data) return;
 
-              const myData = Array.isArray(req.data) ? req.data : [req.data]
+              const myData = Array.isArray(req.data) ? req.data : [req.data];
 
               const handlerProcessor = new HandlerProcessor(
                 myData,
@@ -106,21 +79,21 @@ cds.once('served', async () => {
                 entities,
                 srv.name,
                 req.locale
-              )
+              );
 
               const errors = await handlerProcessor.validateData(
                 entity.EntityName
-              )
+              );
 
               for (const error of errors) {
-                console.log(error)
-                req.error(400, error.message, error.target)
+                console.log(error);
+                req.error(400, error.message, error.target);
               }
-              return req
-            })
+              return req;
+            });
           }
         }
       }
     }
   }
-})
+});
