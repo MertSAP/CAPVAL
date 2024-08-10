@@ -14,7 +14,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm ci && cd tests && npm ci
+      - run: npm ci
+      - run: cd tests
+      - run: npm ci
+      - run: cd ..
       - run: npm test
 
   publish-gpr:
