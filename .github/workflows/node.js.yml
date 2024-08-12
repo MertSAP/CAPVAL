@@ -1,0 +1,24 @@
+# This workflow  performs an install of the latest packages of all dependecies(feature/tests branch) and executes tests
+name: Nightly Test
+
+on:
+# This can be used to automatically publish nightlies at UTC nighttime
+  schedule:
+    - cron: '0 23 * * *' # run at 11 PM UTC
+  # This can be used to allow manually triggering nightlies from the web interface
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/tests
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: cd tests && npm install
+      - run: npm run test
+      - run: npm list
+      - run: cd tests && npm list
