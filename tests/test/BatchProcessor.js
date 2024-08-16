@@ -91,6 +91,8 @@ module.exports = class BatchProcessor {
     };
     const file = path.join("test", "batchrequests", type + ".txt");
     payload.body = fs.readFileSync(file, "utf-8");
+    let regex = /\r?\n/g;
+    payload.body = payload.body.replace(regex, "\r\n");
     return payload;
   }
   replaceAll(str, find, replace) {
