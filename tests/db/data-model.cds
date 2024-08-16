@@ -32,6 +32,12 @@ entity Books {
       }
       previewDate  : Date;
 
+      @validation        : {
+        message: 'Default message0',
+        handler: 'srv/handlers/ConditionalCheck.js'
+      }
+      statusCode   : String;
+
       @mandatory
       @validation.message: 'i18n>price-error'
       price        : Integer;
