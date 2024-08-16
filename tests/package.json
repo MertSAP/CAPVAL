@@ -6,18 +6,18 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^8.0.3",
+    "@sap/cds": "latest",
     "capval": "file:..",
-    "express": "^4"
+    "express": "latest"
   },
   "devDependencies": {
-    "@cap-js/sqlite": "^1",
-    "@sap/eslint-plugin-cds": "^3",
-    "axios": "^1.7.2",
-    "chai": "^4.4.1",
-    "chai-as-promised": "^7.1.2",
-    "chai-subset": "^1.6.0",
-    "eslint": "^9"
+    "@cap-js/sqlite": "latest",
+    "@sap/eslint-plugin-cds": "latest",
+    "axios": "latest",
+    "chai": "latest",
+    "chai-as-promised": "latest",
+    "chai-subset": "latest",
+    "eslint": "latest"
   },
   "scripts": {
     "start": "cds-serve",
