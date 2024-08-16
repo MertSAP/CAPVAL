@@ -10,14 +10,7 @@
     "author": "MertSAP",
     "license": "ISC",
     "dependencies": {
-<<<<<<< HEAD
         "@sap/textbundle": "^5.2.0",
         "mustache": "^4.2.0"
     }
 }
-=======
-        "@sap/textbundle": "latest",
-        "mustache": "latest"
-    }
-}
->>>>>>> cd6c577832e5936ff15f7c8a4b465b2bbbcbf392
