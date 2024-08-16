@@ -6,25 +6,24 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "latest",
+    "@sap/cds": "^8.0.3",
     "capval": "file:..",
-    "express": "latest"
+    "express": "^4"
   },
   "devDependencies": {
-    "@cap-js/sqlite": "latest",
-    "@sap/eslint-plugin-cds": "latest",
-    "axios": "latest",
-    "chai": "latest",
-    "chai-as-promised": "latest",
-    "chai-subset": "latest",
-    "eslint": "latest"
+    "@cap-js/sqlite": "^1",
+    "@sap/eslint-plugin-cds": "^3",
+    "axios": "^1.7.2",
+    "chai": "^4.4.1",
+    "chai-as-promised": "^7.1.2",
+    "chai-subset": "^1.6.0",
+    "eslint": "^9"
   },
   "scripts": {
     "start": "cds-serve",
     "test": "node --experimental-vm-modules test/.test.js"
   },
   "sapux": [
-    "app/project1",
     "app/project1"
   ]
 }
