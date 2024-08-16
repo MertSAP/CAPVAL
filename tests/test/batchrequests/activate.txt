@@ -1,0 +1,34 @@
+--batch_id-1723714641903-541
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+
+PATCH Books(ID=UUID_REPLACE,IsActiveEntity=false) HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en-US
+Prefer:return=minimal
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+JSON_REPLACE
+--batch_id-1723714641903-541
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+
+POST Books(ID=UUID_REPLACE,IsActiveEntity=false)/CatalogFioriService.draftPrepare HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en-US
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+{"SideEffectsQualifier":""}
+--batch_id-1723714275153-541
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+
+POST Books(ID=UUID_REPLACE,IsActiveEntity=false)/CatalogFioriService.draftActivate?$select=HasActiveEntity,HasDraftEntity,ID,IsActiveEntity,description,previewDate,price,releaseDate,reorderPoint,statusCode,stock,title&$expand=DraftAdministrativeData($select=DraftIsCreatedByMe,DraftUUID,InProcessByUser) HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en-US
+Prefer:handling=strict
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+{}
+--batch_id-1723714275153-541--
+Group ID: $auto

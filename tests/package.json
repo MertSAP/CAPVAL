@@ -24,6 +24,7 @@
     "test": "node --experimental-vm-modules test/.test.js"
   },
   "sapux": [
+    "app/project1",
     "app/project1"
   ]
 }

@@ -59,6 +59,14 @@ module.exports = class HandlerProcessor {
     await messageGenerator.loadBundle();
 
     for (const detail of details) {
+      //status code of 444 came from the save handler and don't need more processing
+      if (detail.statusCode === 444) {
+        detail.statusCode = 400;
+        continue;
+      } else if (detail.code === 444) {
+        detail.code = 400;
+        continue;
+      }
       let errorDetails = this.getErrorDetails(this.entity, detail.target);
       let validationRule = this.validationElements.find(
         (item) =>
