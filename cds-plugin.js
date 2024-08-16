@@ -21,7 +21,9 @@ cds.once("served", async () => {
     // go through all entities
     if (srv instanceof cds.ApplicationService) {
       for (const entity of entities) {
-        if (srv.name !== entity.ServiceName) continue;
+        if (srv.name !== entity.ServiceName) {
+          continue;
+        }
         if (
           entity.isRoot &&
           (entity.HasValidations || entity.AncestorsHaveValidations)
@@ -86,10 +88,9 @@ cds.once("served", async () => {
               );
 
               for (const error of errors) {
-                console.log(error);
-                req.error(400, error.message, error.target);
+                ///setting as 444 as the error hanlder is invoked after this and will change to 400 to prevent double handling
+                req.error(444, error.message, error.target);
               }
-              return req;
             });
           }
         }

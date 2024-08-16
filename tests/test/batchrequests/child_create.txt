@@ -1,0 +1,12 @@
+--batch_id-1723714275153-541
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+
+POST Books(ID=UUID_REPLACE,IsActiveEntity=false)/to_Chapters HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en-US
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+{}
+--batch_id-1723714275153-541--
+Group ID: $auto
