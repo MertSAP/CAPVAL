@@ -37,12 +37,7 @@ cds.once("served", async () => {
 
           const errorHandler = async function (err, req, res, next) {
             try {
-              let target = req._query.SELECT.from.ref[0].id + ".drafts";
-              var whereClause = [];
-              whereClause[req._query.SELECT.from.ref[0].where[0].ref[0]] =
-                req._query.SELECT.from.ref[0].where[2].val;
-              let results = await SELECT.from(target).where(whereClause);
-
+              let results = await req._query;
               await errorProcessor.generateErrors(results[0], req.locale, err);
               res.status(err.statusCode);
               res.json({ error: err });
