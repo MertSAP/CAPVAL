@@ -59,6 +59,11 @@ describe("Contextual Information", () => {
       errorMessage
     );
   });
+
+  it("non drafts", async () => {
+    let error = await postBook(testPayload, false);
+    expect(error.response.data.error.message).to.eql(errorMessage);
+  });
 });
 
 describe("Update", () => {

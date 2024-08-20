@@ -1,8 +1,8 @@
 const ServiceParser = require("./ServiceParser.js");
-const MessageGenerator = require("./MessageGenerator.js");
-const TraceGenerator = require("./TraceGenerator.js");
+
 const HandlerProcessor = require("./HandlerProcessor.js");
 const ErrorProcessor = require("./ErrorProcessor.js");
+
 cds.once("served", async () => {
   const serviceParser = new ServiceParser(cds.services);
   const entities = serviceParser.getEntities();
@@ -48,17 +48,11 @@ cds.once("served", async () => {
           cds.middlewares.after = [errorHandler];
 
           srv.on("error", entity.EntityName, async (err, req) => {
-            const results = await cds.tx(req, async (tx) => {
-              return await tx.run(
-                SELECT.from(entity.EntityName + ".drafts").where(req._params[0])
-              );
-            });
-
-            await errorProcessor.generateErrors(
-              results.context.results,
-              req.locale,
-              err
-            );
+            let data = {};
+            try {
+              data = req.http.req.body;
+            } catch (e) {}
+            await errorProcessor.generateErrors(data, req.locale, err);
           });
 
           if (
