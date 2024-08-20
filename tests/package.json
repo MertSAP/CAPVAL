@@ -13,7 +13,7 @@
   "devDependencies": {
     "@cap-js/sqlite": "^1",
     "@sap/eslint-plugin-cds": "^3",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "chai": "^4.4.1",
     "chai-as-promised": "^7.1.2",
     "chai-subset": "^1.6.0",
