@@ -19,6 +19,7 @@ jobs:
           node-version: 22
       - run: npm install
       - run: cd tests && npm install
+      - run: npm update
       - run: npm run test
       - run: npm list
       - run: cd tests && npm list
