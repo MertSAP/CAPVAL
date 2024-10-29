@@ -57,7 +57,7 @@ cds.once("served", async () => {
 
           if (
             entity.isRoot &&
-            (entity.HasHandlers || entity.AncestorsHavehandlers)
+            (entity.HasHandlers || entity.AncestorsHaveHandlers)
           ) {
             srv.before("SAVE", entity.EntityName, async (req) => {
               if (!req.data) return;
