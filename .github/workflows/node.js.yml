@@ -19,9 +19,9 @@ jobs:
           node-version: 22
       - run: npm install && npm update
       - run: cd tests && npm install && npm update
-      - run: npm run test
       - run: npm list
       - run: cd tests && npm list
+      - run: npm run test
   build-linux:
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +33,7 @@ jobs:
           node-version: 22
       - run: npm install && npm update
       - run: cd tests && npm install && npm update
-      - run: npm run test
       - run: npm list
       - run: cd tests && npm list
+      - run: npm run test
 
