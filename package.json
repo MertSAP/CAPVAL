@@ -5,7 +5,7 @@
     "repository": "https://github.com/MertSAP/CAPVAL",
     "main": "index.js",
     "scripts": {
-        "test": "cd tests && node --experimental-vm-modules test/.test.js"
+        "test": "cd tests && npm run test"
     },
     "author": "MertSAP",
     "license": "ISC",

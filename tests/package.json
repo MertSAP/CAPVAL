@@ -17,11 +17,12 @@
     "chai": "^4.4.1",
     "chai-as-promised": "^7.1.2",
     "chai-subset": "^1.6.0",
-    "eslint": "^9"
+    "eslint": "^9",
+    "mocha": "^10.8.2"
   },
   "scripts": {
     "start": "cds-serve",
-    "test": "node --experimental-vm-modules test/.test.js"
+    "test": "mocha"
   },
   "sapux": [
     "app/project1"
