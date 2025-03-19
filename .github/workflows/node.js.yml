@@ -8,20 +8,6 @@ on:
   # This can be used to allow manually triggering nightlies from the web interface
   workflow_dispatch:
 jobs:
-  build-windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm install && npm update
-      - run: cd tests && npm install && npm update
-      - run: npm list
-      - run: cd tests && npm list
-      - run: npm run test
   build-linux:
     runs-on: ubuntu-latest
     steps:
